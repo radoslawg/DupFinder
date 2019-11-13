@@ -1,0 +1,9 @@
+Include/
+Lib/
+Scripts/
+tcl/
+.dir-locals.el
+.projectile
+__pycache__
+.pytest_cache
+*.db

@@ -1,0 +1,48 @@
+* Dupfinder
+
+Purpose of this utility is to index files in directory (with recursion) with fast hashing
+mechanism. This index can be later used to recognize files in another folder and delete them
+assuming they are the same (based on filesize also). This method is not 100% foolproof but it should
+be fast and precise enough for non critical tasks.
+** Things to do [0/4]
+- [ ] Clean up this file
+  - Add all the commands
+  - Describe all the parameters
+  - Present usecases
+- [ ] Clean up =main.py= file
+  - Educate myself on [[https://docs.python.org/3/library/argparse.html][ArgParse]] - it seems to be overengeneered though, =¯\_(ツ)_/¯=
+- [ ] Review tests and add missing ones, not really =TDD= - isn't it?
+- [ ] Add some self checking of db (i.e. find entries with =None= in =hash= column
+** Arguments
+- =create_db= - Create empty database
+- =index_dir= - index files in directory (recursive)
+- =check_dir= - find duplicate files in directory (recursive)
+- =find_dups_in_dir= check all the files in directory against each other (don't use DB) see [[#functions][Functions]].
+- =-d <db.file>= - use specific dbfile (default is %HOME%/dupfinder.db)
+- =--delete-dup-files= - if duplicate file is found then delete it
+- =--add-new-files-to-index -a= - Add newly found files to index db.
+
+** Requirements
+
+- [[https://pypi.org/project/xxhash/][xxhash]] - claiming to be very fast hashing mechanism
+
+** Backend DB
+As a backend, =Dupfinder= uses [[https://docs.python.org/2/library/sqlite3.html][Sqlite3]] file database.
+
+** Tests
+Set of tests exist in =tests\= directory.
+** Functions
+*** Find duplicates in a directory
+=find_dups_in_dir= does not use database just checks all the files in directory against each other
+to find duplicates.
+- =--delete-dup-files= - Deletes duplicated files except the first one encountered.
+** Design notes
+*** Generators
+I could have work with generators more instead of relying on lists. This may have been more
+efficient with memory. However, I did index over 2TB of data and couple of hundreds of thousands of
+files with one call and memory was not even a subject of concern. It mostly depends on number of
+files and for each file dictionary entry of two strings and a number is allocated.
+*** Test Driven Development
+This whole project was/is an excersise in [[https://pl.wikipedia.org/wiki/Test-driven_development][Test Driven Development]] and (re)learning [[https://www.python.org/][Python]] language,
+especially that I did not touch =3.x= line yet.
+There is great plugin for [[https://docs.pytest.org/en/latest/][pytest]] that helped with it - [[https://pypi.org/project/pyfakefs/][pyfakefs]] and hey, I even found [[https://github.com/jmcgeheeiv/pyfakefs/issues/502][bug]] in it. ;)
