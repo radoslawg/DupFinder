@@ -4,7 +4,9 @@ Purpose of this utility is to index files in directory (with recursion) with fas
 mechanism. This index can be later used to recognize files in another folder and delete them
 assuming they are the same (based on filesize also). This method is not 100% foolproof but it should
 be fast and precise enough for non critical tasks.
-** Things to do [0/4]
+** Things to do [0/5]
+- [ ] =search_db= function that will search index for given filename. (maybe handy for finding out
+  if you have ever seen the file?)
 - [ ] Clean up this file
   - Add all the commands
   - Describe all the parameters
